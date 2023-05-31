@@ -91,6 +91,11 @@ gem_group :development, :test do
   gem "byebug"
 end
 
+if yes?("Are you interested in my custom vscode settings ?")
+  run 'mkdir .vscode'
+  run "curl -o .vscode/.code-snippets.jsonc 'https://raw.githubusercontent.com/troptropcontent/devcontainer_rails/main/.vscode/.code-snippets.jsonc'"
+  run "curl -o .vscode/settings.json 'https://raw.githubusercontent.com/troptropcontent/devcontainer_rails/main/.vscode/settings.json'"
+end
 
 after_bundle do
   run 'rm -f bin/dev'
@@ -99,7 +104,7 @@ after_bundle do
 
   exec foreman start -f Procfile.dev "$@"
   CODE
-  
+
   git add: '.'
   
   git commit: %Q{ -m 'Firt commit after template modification' }
