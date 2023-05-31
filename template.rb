@@ -35,6 +35,13 @@ ENV RAILS_DEVELOPMENT_HOSTS=".githubpreview.dev,.app.github.dev,.preview.app.git
 CODE
 end
 
+run 'rm bin/dev'
+file 'bin/dev', <<-CODE
+#!/usr/bin/env sh
+
+exec foreman start -f Procfile.dev "$@"
+CODE
+
 
 run 'rm .devcontainer/devcontainer.json'
 
