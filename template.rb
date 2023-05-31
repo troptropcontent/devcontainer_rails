@@ -28,22 +28,17 @@ file '.devcontainer/docker-compose.yml', <<-CODE
     postgres-data:
 CODE
 
-inject_into_file '.devcontainer/Dockerfile', after: 'RUN gem install rails' do
-<<-CODE
+run 'rm -f .devcontainer/Dockerfile'
 
+file '.devcontainer/Dockerfile', <<-CODE
+ARG VARIANT=3.1-bullseye
+FROM mcr.microsoft.com/vscode/devcontainers/ruby:${VARIANT}
+
+RUN gem install rails 
 ENV RAILS_DEVELOPMENT_HOSTS=".githubpreview.dev,.app.github.dev,.preview.app.github.dev"
 CODE
-end
 
-run 'rm bin/dev'
-file 'bin/dev', <<-CODE
-#!/usr/bin/env sh
-
-exec foreman start -f Procfile.dev "$@"
-CODE
-
-
-run 'rm .devcontainer/devcontainer.json'
+run 'rm -f .devcontainer/devcontainer.json'
 
 file '.devcontainer/devcontainer.json', <<-CODE
   {
@@ -96,6 +91,16 @@ gem_group :development, :test do
   gem "byebug"
 end
 
-git add: '.'
 
-git commit: %Q{ -m 'Firt commit after template modification' }
+after_bundle do
+  run 'rm -f bin/dev'
+  file 'bin/dev', <<-CODE
+  #!/usr/bin/env sh
+
+  exec foreman start -f Procfile.dev "$@"
+  CODE
+  
+  git add: '.'
+  
+  git commit: %Q{ -m 'Firt commit after template modification' }
+end
