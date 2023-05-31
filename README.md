@@ -3,19 +3,10 @@
 2 - choose the blank template
 
 3 - Create a .devcontainer folder
+`mkdir .devcontainer`
 
-4 - Add those two files 
-
-Dockerfile
-
-```
-ARG VARIANT=3.1-bullseye
-FROM mcr.microsoft.com/vscode/devcontainers/ruby:${VARIANT}
-
-RUN gem install rails 
-```
-
-devcontainer.json
+4 - Add this file 
+`touch .devcontainer/devcontainer.json`
 
 ```
 {
@@ -25,10 +16,10 @@ devcontainer.json
 }
 ```
 
-5 - Rebuild container (cmd + shift + p > build)
+5 - Rebuild container (cmd + shift + p > rebuild)
 
 6 - run `rails new . -m https://raw.githubusercontent.com/troptropcontent/devcontainer_rails/main/template.rb --database=postgresql --css tailwind`
 
-7 - Rebuild container (cmd + shift + p > build)
+7 - Rebuild container (cmd + shift + p > rebuild)
 
-8 - Your good to go
+8 - `rails s` 🚀
