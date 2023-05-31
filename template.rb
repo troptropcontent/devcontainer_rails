@@ -28,9 +28,63 @@ file '.devcontainer/docker-compose.yml', <<-CODE
     postgres-data:
 CODE
 
-inject_into_file '.devcontainer/Dockerfile', after: 'Rails installed' do
-  <<-CODE
+inject_into_file '.devcontainer/Dockerfile', after: 'RUN gem install rails' do
+<<-CODE
 
-  ENV RAILS_DEVELOPMENT_HOSTS=".githubpreview.dev,.app.github.dev,.preview.app.github.dev"
-  CODE
+ENV RAILS_DEVELOPMENT_HOSTS=".githubpreview.dev,.app.github.dev,.preview.app.github.dev"
+CODE
+end
+
+
+run 'rm .devcontainer/devcontainer.json'
+
+file '.devcontainer/devcontainer.json', <<-CODE
+  {
+    "name": "Ruby on Rails & Postgres",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "app",
+    "workspaceFolder": "/workspace",
+    "customizations": {
+      "vscode": {
+        "extensions": [
+          "rebornix.Ruby"
+        ]
+      }
+    },
+    "forwardPorts": [3000, 5432],
+    "postCreateCommand": "bundle install && rails db:setup",
+    "remoteUser": "vscode"
+  }
+CODE
+
+inject_into_file 'config/database.yml', after: 'pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>' do
+<<-RUBY
+
+  host: db
+  username: postgres
+  password: postgres
+RUBY
+end
+
+inject_into_file 'config/environments/development.rb', after: 'config.assets.quiet = true' do
+<<-CODE
+# Setup preview in simple browser
+pf_domain = ENV['GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN']
+config.action_dispatch.default_headers = {
+  'X-Frame-Options' => "ALLOW-FROM \#{pf_domain}"
+}
+
+pf_host = "\#{ENV['CODESPACE_NAME']}-3000.\#{pf_domain}"
+config.hosts << pf_host
+
+config.action_cable.allowed_request_origins = ["https://\#{pf_host}"]
+CODE
+end
+
+gem_group :development do
+  gem "foreman"
+end
+
+gem_group :development, :test do
+  gem "byebug"
 end

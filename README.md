@@ -12,9 +12,7 @@ Dockerfile
 ARG VARIANT=3.1-bullseye
 FROM mcr.microsoft.com/vscode/devcontainers/ruby:${VARIANT}
 
-RUN echo 'Installing rails'
 RUN gem install rails 
-RUN echo 'Rails installed'
 ```
 
 devcontainer.json
@@ -29,4 +27,4 @@ devcontainer.json
 
 5 - Rebuild container (cmd + shift + p > build)
 
-6 - run rails new . -m https://raw.githubusercontent.com/troptropcontent/devcontainer_rails/main/template.rb
+6 - run rails new . -m https://raw.githubusercontent.com/troptropcontent/devcontainer_rails/main/template.rb --database=postgresql --css tailwind
