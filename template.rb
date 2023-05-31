@@ -95,3 +95,7 @@ end
 gem_group :development, :test do
   gem "byebug"
 end
+
+git add: '.'
+
+git commit: %Q{ -m 'Firt commit after template modification' }
