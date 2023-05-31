@@ -10,9 +10,9 @@
 
 ```
 {
-    "build": {
-        "dockerfile": "Dockerfile"
-    }
+	"name": "Ruby and Rails",
+	"image": "mcr.microsoft.com/devcontainers/ruby:0-3.1-bullseye",
+	"postCreateCommand": "gem install rails"
 }
 ```
 
