@@ -28,9 +28,9 @@ file '.devcontainer/docker-compose.yml', <<-CODE
     postgres-data:
 CODE
 
-inject_into_file '.devcontainer/Dockerfile', after: 'RUN gem install rails ' do
+inject_into_file '.devcontainer/Dockerfile', after: 'Rails installed' do
   <<-CODE
 
-    ENV RAILS_DEVELOPMENT_HOSTS=".githubpreview.dev,.app.github.dev,.preview.app.github.dev"
+  ENV RAILS_DEVELOPMENT_HOSTS=".githubpreview.dev,.app.github.dev,.preview.app.github.dev"
   CODE
 end
