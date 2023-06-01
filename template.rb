@@ -89,6 +89,7 @@ end
 
 gem_group :development, :test do
   gem "byebug"
+  gem "faker"
 end
 
 if yes?("Are you interested in my custom vscode settings ?")
