@@ -5,16 +5,8 @@
 3 - Create a .devcontainer folder
 `mkdir .devcontainer`
 
-4 - Add this file 
-`touch .devcontainer/devcontainer.json`
-
-```
-{
-	"name": "Ruby and Rails",
-	"image": "mcr.microsoft.com/devcontainers/ruby:0-3.1-bullseye",
-	"postCreateCommand": "gem install rails"
-}
-```
+4 - Add a devcontainer.json file inside  
+`echo -e "{\n	\"name\": \"Ruby and Rails\",\n	\"image\": \"mcr.microsoft.com/devcontainers/ruby:0-3.1-bullseye\",\n	\"postCreateCommand\": \"gem install rails\"\n}" > .devcontainer/devcontainer.json`
 
 5 - Rebuild container (cmd + shift + p > rebuild)
 
@@ -23,3 +15,4 @@
 7 - Rebuild container (cmd + shift + p > rebuild)
 
 8 - `rails s` 🚀
+
