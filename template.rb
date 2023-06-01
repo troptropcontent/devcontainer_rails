@@ -93,7 +93,7 @@ end
 
 if yes?("Are you interested in my custom vscode settings ?")
   run 'mkdir .vscode'
-  run "curl -o .vscode/.code-snippets.jsonc 'https://raw.githubusercontent.com/troptropcontent/vs-code-settings/main/.vscode/.code-snippets'"
+  run "curl -o .vscode/.code-snippets 'https://raw.githubusercontent.com/troptropcontent/vs-code-settings/main/.vscode/.code-snippets'"
   run "curl -o .vscode/settings.json 'https://raw.githubusercontent.com/troptropcontent/vs-code-settings/main/.vscode/settings.json'"
 end
 
